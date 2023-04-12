@@ -19,4 +19,4 @@ classes +-
 рассмотрели лист сет трай эксепт и таплы
 
 след 
-dict args modules files ostest 
+files ostest classes

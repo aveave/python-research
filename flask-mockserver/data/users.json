@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "John",
+        "age": 30,
+        "phoneNumber": 812344534
+    },
+    {
+        "id": 2,
+        "name": "Brock",
+        "age": 50,
+        "phoneNumber": 5685689895
+    },
+    {
+        "id": 3,
+        "name": "Steven",
+        "age": 45,
+        "phoneNumber": 324234234423
+    }
+]
