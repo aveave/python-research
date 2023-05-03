@@ -19,4 +19,4 @@ classes +-
 рассмотрели лист сет трай эксепт и таплы
 
 след 
-files ostest classes
+multiple inheritance -> decorator -> datetime-research
