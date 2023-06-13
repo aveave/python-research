@@ -1,2 +1,2 @@
-FLASK_APP=rest-service
+FLASK_APP=app
 FLASK_DEBUG=1
