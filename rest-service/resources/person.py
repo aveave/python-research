@@ -7,28 +7,42 @@ from sqlalchemy.exc import SQLAlchemyError
 
 blp = Blueprint("Persons", "persons", description = "Persons methods")
 
-@blp.route("/persons")
+person_schema = PersonSchema()
+persons_schema = PersonSchema(many=True)
+
 class PersonBlueprint(MethodView):
 
+    @blp.route("/persons")
     @blp.arguments(PersonSchema)
-    def post(self, person_data):
+    def create_person(self, person_data):
         print(person_data)
         person = PersonModel(**person_data)
         try:
             db.session.add(person)
             db.session.commit()
         except SQLAlchemyError:
-            abort(500, message = "An error occured while ins")
+            abort(500, message = "An error occured while insert")
             # return {"message": "An error occured while ins"}, 404
         return '', 200
 
-    def get(self):
-        print('bbbb')
+    @blp.route("/persons", methods = ['GET'])
+    def get_all():
         persons = PersonModel.query.all()
-        print('persons aree ', persons)
-        return persons
-
-# @app.route('/persons/<id>', methods = ['GET'])
-# def get_person_by_id(id):
-#     result = db.get_note_by_id_from_db(id)
-#     return jsonify(result)
+        serialized_persons = persons_schema.dump(persons)
+        return serialized_persons
+    
+    @blp.route('/persons/<int:id>', methods = ['GET'])
+    def get_person(id):
+        person = PersonModel.query.get(id)
+        if person is None:
+            abort(400, message = "Person with provided id is not found")
+        return person_schema.dump(person)
+    
+    @blp.route('/persons/<int:id>', methods = ['DELETE'])
+    def delete_person(id):
+        person = PersonModel.query.get(id)
+        if person is None:
+            abort(400, message = "Person with provided id is not found")
+        db.session.delete(person)
+        db.session.commit()
+        return {'message': 'Person deleted successfully'}
